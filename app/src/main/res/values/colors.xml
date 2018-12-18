@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3c87ff</color>
+    <color name="colorPrimaryDark">#3c87ff</color>
+    <color name="colorAccent">#3c87ff</color>
+
+    <!--白色-->
+    <color name="white">#ffffff</color>
+</resources>
