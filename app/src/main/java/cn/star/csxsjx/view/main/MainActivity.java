@@ -3,6 +3,7 @@ package cn.star.csxsjx.view.main;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
@@ -11,6 +12,7 @@ import com.lzy.okgo.model.Response;
 import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,23 +57,19 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<String> response) {
                         closeProgressDialog();
-                        ToastUtil.showToast("OK");
                         try {
                             JSONArray imags = new JSONArray(response.body());
                             for (int i = 0; i < imags.length(); i++) {
-
-                                imagesBeans.add(getGson().fromJson(imags.optString(0), ImagesBean.class));
-
+                                Gson gson = new Gson();
+                                ImagesBean imagesBean = gson.fromJson(imags.optString(i), ImagesBean.class);
+                                imagesBeans.add(imagesBean);
                             }
                             if (imagesBeans.size() > 0) {
                                 initImageView();
-                                ToastUtil.showToast("又图片");
-                            } else {
-                                Logger.e("agfasfsafasf");
-                                ToastUtil.showToast("没图片");
                             }
-                        } catch (JSONException j) {
-                            Logger.d(j);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Logger.d(e.getMessage());
                         }
                     }
 
@@ -88,8 +86,26 @@ public class MainActivity extends BaseActivity {
     private void initImageView() {
         banner.setImageLoader(new GlideImageLoader());
         banner.setImages(imagesBeans);
-        //banner设置方法全部调用完毕时最后调用
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        banner.setDelayTime(4500);
         banner.start();
+    }
+
+    //如果你需要考虑更好的体验，可以这么操作
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.startAutoPlay();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //结束轮播
+        banner.stopAutoPlay();
     }
 
     /**

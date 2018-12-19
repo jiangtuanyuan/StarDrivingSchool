@@ -15,12 +15,8 @@ import java.util.logging.Logger;
 public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
-        //Glide 加载图片简单用法
-        List<ImagesBean> imagesBeans = (List<ImagesBean>) path;
+        //Glide 加载图片
+        Glide.with(context).load(((ImagesBean)path).getUrl()).into(imageView);
 
-        for (ImagesBean imaghe : imagesBeans) {
-           // com.orhanobut.logger.Logger.e("afaf",imaghe.getUrl());
-            Glide.with(context).load(imaghe.getUrl()).into(imageView);
-        }
     }
 }

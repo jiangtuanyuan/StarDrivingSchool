@@ -69,8 +69,11 @@ public class NetInterceptor implements Interceptor {
             if (showResponse) {
                 ResponseBody body = clone.body();
                 if (body != null) {
+                    MediaType mediaType = body.contentType();
                     String resp = body.string();
                     Logger.json(resp);
+                    body = ResponseBody.create(mediaType, resp);
+                    return response.newBuilder().body(body).build();
                 }
             }
             Log.e(tag, "========NetLog-End=======");

@@ -6,4 +6,6 @@
 
     <!--白色-->
     <color name="white">#ffffff</color>
+    <!--透明黑色-->
+    <color name="tm_black">#35000000</color>
 </resources>
